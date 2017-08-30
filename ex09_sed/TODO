@@ -1,0 +1,46 @@
+=      Print the current line number.
+a \ text   Append text, which has each embedded newline preceded by a backslash.
+i \ text   Insert text, which has each embedded newline preceded by a backslash.
+q [exit-code]
+       Immediately quit the sed script without processing any more input, except that  if  auto-print
+       is  not  disabled  the current pattern space will be printed.  The exit code argument is a GNU
+       extension.
+Q [exit-code]
+       Immediately quit the sed script without processing any more input.  This is a GNU extension.
+r filename
+       Append text read from filename.
+R filename
+       Append a line read from filename.  Each invocation of the command reads a line from the  file.
+       This is a GNU extension.
+{      Begin a block of commands (end with a }).
+b label
+       Branch to label; if label is omitted, branch to end of script.
+c \ text   Replace the selected lines with text, which has each embedded newline preceded by a backslash.
+d      Delete pattern space.  Start next cycle.
+D      If pattern space contains no newline, start a normal new cycle as if the d command was issued.
+       Otherwise, delete text in the pattern space up to the first newline, and  restart  cycle  with
+       the resultant pattern space, without reading a new line of input.
+h H    Copy/append pattern space to hold space.
+g G    Copy/append hold space to pattern space.
+l      List out the current line in a ``visually unambiguous'' form.
+l width
+       List out the current line in a ``visually unambiguous'' form, breaking it at width characters.
+       This is a GNU extension.
+n N    Read/append the next line of input into the pattern space.
+p      Print the current pattern space.
+P      Print up to the first embedded newline of the current pattern space.
+t label
+       If  a s/// has done a successful substitution since the last input line was read and since the
+       last t or T command, then branch to label; if label is omitted, branch to end of script.
+T label
+       If no s/// has done a successful substitution since the last input line was read and since the
+       last t or T command, then branch to label; if label is omitted, branch to end of script.  This
+       is a GNU extension.
+w filename
+       Write the current pattern space to filename.
+W filename
+       Write the first line of the current pattern space to filename.  This is a GNU extension.
+x      Exchange the contents of the hold and pattern spaces.
+y/source/dest/
+       Transliterate the characters in the pattern space which appear in source to the  corresponding
+       character in dest.
