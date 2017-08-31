@@ -53,3 +53,16 @@ class TSTree(object):
         keys = [x for x in key]
         self.root = self._set(self.root, keys, value)
 
+    def find_shortest(self, key):
+        pass
+
+    def find_longest(self, key):
+        pass
+
+    def find_all(self, key):
+        pass
+
+    def find_part(self, key):
+        pass
+
+
