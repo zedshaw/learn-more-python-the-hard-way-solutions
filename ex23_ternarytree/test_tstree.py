@@ -23,8 +23,9 @@ def test_TSTree_find_all():
 
 def test_TSTree_find_shortest():
     urls = test_TSTree_get_set()
+    urls.set("/kiwikiwi/", "KiwiKiwi")
     assert urls.find_shortest("/k").value == "Kiwi" 
-    assert urls.find_shortest("/kiwiki") == None
+    assert urls.find_shortest("/kiwiki").value == "KiwiKiwi"
     assert urls.find_shortest("/a").value == "Apple" 
     assert urls.find_shortest("/").value == "Kiwi" 
 

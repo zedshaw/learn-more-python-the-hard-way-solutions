@@ -82,7 +82,8 @@ class TSTree(object):
     def _find_all(self, node, key, results):
         if not node: return
 
-        if node.eq == None and node.low == None and node.high == None:
+        if node.key and node.value:
+            # this node has something so save it
             results.append(node)
 
         # if there is a low then go low
