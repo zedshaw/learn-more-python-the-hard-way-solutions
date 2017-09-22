@@ -1,76 +1,50 @@
 from urlrouter import *
 
 
-def test_TSTRouter_add():
-    urls = TSTRouter()
+
+def add_test(urls):
     urls.add("/kiwi/", "Kiwi")
     urls.add("/apple/", "Apple")
     return urls
 
-def test_TSTRouter_exact_match():
-    urls = test_TSTRouter_add()
+def exact_match_test(urls):
     assert urls.exact_match("/kiwi/") == "Kiwi"
     assert urls.exact_match("/apple/") == "Apple"
     assert urls.exact_match("/stuff/") == None
 
-def test_TSTRouter_best_match():
-    urls = test_TSTRouter_add()
+def best_match_test(urls):
     assert urls.best_match("/kiwi/user/1234/").value == "Kiwi"
     assert urls.best_match("/apple/user/2344/").value == "Apple"
     assert urls.best_match("NOTHING") == None
 
-def test_TSTRouter_match_all():
-    urls = test_TSTRouter_add()
+def match_all_test(urls):
     urls.add("/kiwikiwi/", "KiwiKiwi")
-    all = [n.value for n in urls.match_all("/kiwi")]
-    assert all == ["Kiwi", "KiwiKiwi"]
+    all_matches = [n.value for n in urls.match_all("/kiwi")]
+    assert all_matches == ["Kiwi", "KiwiKiwi"]
 
-def test_TSTRouter_match_shortest():
-    urls = test_TSTRouter_add()
+def match_shortest_test(urls):
     urls.add("/kiwikiwi/", "KiwiKiwi")
     assert urls.match_shortest("/k").value == "Kiwi"
     assert urls.match_shortest("/a").value == "Apple"
 
-def test_TSTRouter_match_longest():
-    urls = test_TSTRouter_add()
+def match_longest_test(urls):
     urls.add("/kiwikiwi/", "KiwiKiwi")
     assert urls.match_longest("/k").value == "KiwiKiwi"
     assert urls.match_longest("/a").value == "Apple"
 
+def all_tests(urls):
+    add_test(urls)
+    exact_match_test(urls)
+    best_match_test(urls)
+    match_all_test(urls)
+    match_shortest_test(urls)
+    match_longest_test(urls)
 
-def test_DictRouter_add():
+def test_TSTRouter():
+    urls = TSTRouter()
+    all_tests(urls)
+
+def test_DictRouter():
     urls = DictRouter()
-    urls.add("/kiwi/", "Kiwi")
-    urls.add("/apple/", "Apple")
-    return urls
-
-def test_DictRouter_exact_match():
-    urls = test_DictRouter_add()
-    assert urls.exact_match("/kiwi/") == "Kiwi"
-    assert urls.exact_match("/apple/") == "Apple"
-    assert urls.exact_match("/stuff/") == None
-
-def test_DictRouter_best_match():
-    urls = test_DictRouter_add()
-    assert urls.best_match("/kiwi/user/1234/").value == "Kiwi"
-    assert urls.best_match("/apple/user/2344/").value == "Apple"
-    assert urls.best_match("NOTHING") == None
-
-def test_DictRouter_match_all():
-    urls = test_DictRouter_add()
-    urls.add("/kiwikiwi/", "KiwiKiwi")
-    all = [n.value for n in urls.match_all("/kiwi/")]
-    assert all == ["Kiwi"]
-
-def test_DictRouter_match_shortest():
-    urls = test_DictRouter_add()
-    urls.add("/k/", "KiwiKiwi")
-    assert urls.match_shortest("/k/").value == "KiwiKiwi"
-
-def test_DictRouter_match_longest():
-    urls = test_DictRouter_add()
-    urls.add("/kiwikiwi/", "KiwiKiwi")
-    assert urls.match_longest("/kiwikiwi/").value == "KiwiKiwi"
-    assert urls.match_longest("/apple/").value == "Apple"
-
+    all_tests(urls)
 

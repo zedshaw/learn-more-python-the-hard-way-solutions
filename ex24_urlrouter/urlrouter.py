@@ -73,9 +73,17 @@ class DictRouter(URLRouter):
     def match_all(self, url):
         results = []
         for k,v in self.urls.items():
-            if url.startswith(k):
-                results.append(v)
+            if len(k) > len(url):
+                if k.startswith(url):
+                    results.append(v)
+            else:
+                if url.startswith(k):
+                    results.append(v)
+
         return results
 
 
+class DListRouter(URLRouter):
 
+    def __init__(self):
+        pass
