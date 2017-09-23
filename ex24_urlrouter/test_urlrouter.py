@@ -48,3 +48,10 @@ def test_DictRouter():
     urls = DictRouter()
     all_tests(urls)
 
+def test_DListRouter():
+    urls = DListRouter()
+    #all_tests(urls)
+
+def test_BSTreeRouter():
+    urls = BSTreeRouter()
+    all_tests(urls)

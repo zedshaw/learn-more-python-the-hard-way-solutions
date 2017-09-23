@@ -1,4 +1,6 @@
 from tstree import TSTree
+from dllist import DoubleLinkedList
+from bstree import BSTree
 
 class URLNode(object):
 
@@ -38,19 +40,19 @@ class URLRouter(object):
 class TSTRouter(URLRouter):
 
     def __init__(self):
-        self.tree = TSTree()
+        self.urls = TSTree()
 
     def add(self, url, value):
-        self.tree.set(url, value)
+        self.urls.set(url, value)
 
     def exact_match(self, url):
-        return self.tree.get(url)
+        return self.urls.get(url)
 
     def best_match(self, url):
-        return self.tree.find_part(url)
+        return self.urls.find_part(url)
 
     def match_all(self, url):
-        results = self.tree.find_all(url)
+        results = self.urls.find_all(url)
         return results
 
 
@@ -82,8 +84,56 @@ class DictRouter(URLRouter):
 
         return results
 
+class BSTreeRouter(URLRouter):
+
+    def __init__(self):
+        self.urls = BSTree()
+
+    def add(self, url, value):
+        self.urls.set(url, URLNode(url, value))
+
+    def exact_match(self, url):
+        node = self.urls.get(url)
+        return node and node.value or None
+
+    def best_match(self, url):
+        possible = sorted(self.match_all(url))
+        return possible and possible[0] or None
+
+    def _match_all(self, results, node, url):
+        if node:
+            if len(node.key) > len(url):
+                if node.key.startswith(url):
+                    results.append(node.value)
+            else:
+                if url.startswith(node.key):
+                    results.append(node.value)
+            if node.left:
+                self._match_all(results, node.left, url)
+            if node.right:
+                self._match_all(results, node.right, url)
+
+        
+    def match_all(self, url):
+        results = []
+        self._match_all(results, self.urls.root, url)
+        return results
+
 
 class DListRouter(URLRouter):
 
     def __init__(self):
+        self.urls = DoubleLinkedList()
+
+    def add(self, url, value):
+        self.urls.push(url)
+
+    def exact_match(self, url):
         pass
+
+    def best_match(self, url):
+        pass
+
+    def match_all(self, url):
+        pass
+
