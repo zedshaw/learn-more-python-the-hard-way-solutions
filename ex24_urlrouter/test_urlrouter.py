@@ -50,7 +50,7 @@ def test_DictRouter():
 
 def test_DListRouter():
     urls = DListRouter()
-    #all_tests(urls)
+    all_tests(urls)
 
 def test_BSTreeRouter():
     urls = BSTreeRouter()

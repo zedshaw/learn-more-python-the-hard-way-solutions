@@ -21,7 +21,9 @@ class URLRouter(object):
         pass
 
     def best_match(self, url):
-        pass
+        key = lambda x: len(x.key)
+        possible = sorted(self.match_all(url), key=key)
+        return possible and possible[0] or None
 
     def match_all(self, url):
         pass
@@ -68,10 +70,6 @@ class DictRouter(URLRouter):
         node = self.urls.get(url)
         return node and node.value or None
 
-    def best_match(self, url):
-        possible = sorted(self.match_all(url))
-        return possible and possible[0] or None
-        
     def match_all(self, url):
         results = []
         for k,v in self.urls.items():
@@ -95,10 +93,6 @@ class BSTreeRouter(URLRouter):
     def exact_match(self, url):
         node = self.urls.get(url)
         return node and node.value or None
-
-    def best_match(self, url):
-        possible = sorted(self.match_all(url))
-        return possible and possible[0] or None
 
     def _match_all(self, results, node, url):
         if node:
@@ -126,14 +120,33 @@ class DListRouter(URLRouter):
         self.urls = DoubleLinkedList()
 
     def add(self, url, value):
-        self.urls.push(url)
+        self.urls.push(URLNode(url, value))
 
     def exact_match(self, url):
-        pass
+        node = self.urls.begin
 
-    def best_match(self, url):
-        pass
+        while node:
+            route = node.value
+            if route.key == url:
+                return route.value
+            else:
+                node = node.next
+
+        return None
 
     def match_all(self, url):
-        pass
+        node = self.urls.begin
+        results = []
 
+        while node:
+            route = node.value
+            if len(route.key) > len(url):
+                if route.key.startswith(url):
+                    results.append(route)
+            else:
+                if url.startswith(route.key):
+                    results.append(route)
+
+            node = node.next
+
+        return results
