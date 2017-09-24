@@ -6,8 +6,9 @@ from bokeh import plotting
 import os
 
 command = sys.argv[1]
-name = sys.argv[2]
-args = sys.argv[3:]
+if command != "init":
+    name = sys.argv[2]
+    args = sys.argv[3:]
 
 SAVE_DIR = ".morepystats"
 
