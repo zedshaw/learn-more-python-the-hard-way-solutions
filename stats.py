@@ -47,8 +47,9 @@ elif command == "stats":
         print(f"q\t{q25[i]} {q50[i]} {q75[i]}\nIQR\t{q75[i] - q25[i]}")
 
 elif command == "graph":
-    assert os.path.exists(SAVE_DIR), f"No save dir {SAVE_DIR}. In the right place?"
-    plotting.output_file(f"{SAVE_DIR}/{name}.html")
+    out_dir = len(args) > 0 and args[0] or SAVE_DIR
+    assert os.path.exists(out_dir), f"No save dir {out_dir}. In the right place?"
+    plotting.output_file(f"{out_dir}/{name}.html")
     file_name = f"{SAVE_DIR}/{name}.npy"
     data = numpy.load(file_name)
 
