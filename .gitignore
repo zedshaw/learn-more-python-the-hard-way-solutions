@@ -2,3 +2,4 @@
 __pycache__
 .cache
 .*.sw*
+.morepystats
