@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 def reshape(data, n):
     results = []
     while data:
