@@ -1,5 +1,6 @@
 import re
 from punypy.parser import Parser
+from punypy import productions as prod
 
 TOKENS = [
 (re.compile(r"^def"),                    "DEF"),
@@ -42,7 +43,7 @@ class PunyPyParser(Parser):
         self.match('LPAREN')
         params = self.parameters()
         self.skip('RPAREN', 'COLON')
-        return {'type': 'FUNCDEF', 'name': name, 'params': params}
+        return prod.FuncDef(name, params)
 
     def parameters(self):
         """params = expression *(COMMA expression)"""
@@ -53,14 +54,14 @@ class PunyPyParser(Parser):
             start = self.peek()
             if start != 'RPAREN':
                 assert self.skip('COMMA')
-        return params
+        return prod.Parameters(params)
 
     def function_call(self, name):
         """funccall = name LPAREN params RPAREN"""
         self.match('LPAREN')
         params = self.parameters()
         self.match('RPAREN')
-        return {'type': 'FUNCCALL', 'name': name, 'params': params}
+        return prod.FuncCall(name, params)
 
     def expression(self):
         """expression = name / plus / integer"""
@@ -85,6 +86,10 @@ class PunyPyParser(Parser):
         """plus = expression PLUS expression"""
         self.match('PLUS')
         right = self.expression()
-        return {'type': 'PLUS', 'left': left, 'right': right}
+        return prod.AddExpr(left, right)
 
+class PunyPyWorld(object):
 
+    def __init__(self, variables):
+        self.variables = variables
+        self.functions = {}
