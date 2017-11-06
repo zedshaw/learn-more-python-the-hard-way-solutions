@@ -8,3 +8,4 @@ class PunyPyAnalyzer(object):
         for node in self.parse_tree:
             node.analyze(self.world)
 
+        return self.parse_tree

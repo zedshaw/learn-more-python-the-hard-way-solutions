@@ -12,6 +12,10 @@ class FuncCall(Production):
     def analyze(self, world):
         self.params.analyze(world)
 
+    def interpret(self, world):
+        funcdef = world.functions[self.name]
+        funcdef.call(world, self.params)
+
     def __repr__(self):
         return f"FuncCall({self.name}: {self.params})"
 
@@ -71,5 +75,11 @@ class FuncDef(Production):
     def __repr__(self):
         return f"FuncDef({self.name}({self.params}): {self.body}"
 
+    def call(self, world, params):
+        for i in params.expressions:
+            print(">>>> param", i)
+
+    def interpret(self, world):
+        pass
 
 

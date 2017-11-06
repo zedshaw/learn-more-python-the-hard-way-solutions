@@ -16,4 +16,9 @@ def test_Analyzer():
     script = test_Parser()
     print(script)
     analyzer = PunyPyAnalyzer(script, world)
-    analyzer.analyze()
+    return analyzer.analyze(), world
+
+def test_Interpreter():
+    prods, world = test_Analyzer()
+    for prod in prods:
+        prod.interpret(world)
