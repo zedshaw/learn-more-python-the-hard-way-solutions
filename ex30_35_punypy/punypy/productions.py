@@ -59,16 +59,17 @@ class AddExpr(Expr):
 
 class FuncDef(Production):
 
-    def __init__(self, token, params):
+    def __init__(self, token, params, body):
         self.name = token[1]
         self.params = params
+        self.body = body
         self.token = token
 
     def analyze(self, world):
         world.functions[self.name] = self
 
     def __repr__(self):
-        return f"FuncDef({self.name}: {self.params})"
+        return f"FuncDef({self.name}({self.params}): {self.body}"
 
 
 

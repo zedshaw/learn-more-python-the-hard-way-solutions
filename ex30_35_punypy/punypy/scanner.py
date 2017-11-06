@@ -26,10 +26,13 @@ class Scanner(object):
 
     def skip(self, *what):
         for x in what:
-            self.ignore_ws()
-            tok = self.tokens.pop(0)
+            if x != 'INDENT': self.ignore_ws()
+
+            tok = self.tokens[0]
             if tok[0] != x:
                 return False
+            else:
+                self.tokens.pop(0)
 
         return True
 

@@ -43,7 +43,14 @@ class PunyPyParser(Parser):
         self.match('LPAREN')
         params = self.parameters()
         self.skip('RPAREN', 'COLON')
-        return prod.FuncDef(name, params)
+        body = self.function_body()
+        return prod.FuncDef(name, params, body)
+
+    def function_body(self):
+        body = []
+        while self.skip("INDENT"):
+            body.append(self.expression())
+        return body
 
     def parameters(self):
         """params = expression *(COMMA expression)"""
@@ -64,14 +71,19 @@ class PunyPyParser(Parser):
         return prod.FuncCall(name, params)
 
     def expression(self):
-        """expression = name / plus / integer"""
+        """expression = name / funccall / plus / integer"""
         start = self.peek()
 
         if start == 'NAME':
             name = self.match('NAME')
             nameexpr = prod.NameExpr(name)
-            if self.peek() == 'PLUS':
+
+            expr = self.peek()
+
+            if expr == 'PLUS':
                 return self.plus(nameexpr)
+            elif expr == 'LPAREN':
+                return self.function_call(name)
             else:
                 return nameexpr
         elif start == 'INTEGER':
