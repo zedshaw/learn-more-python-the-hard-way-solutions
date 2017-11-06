@@ -1,5 +1,5 @@
-from scanner import Scanner
 from punypy import TOKENS
+from punypy.scanner import Scanner
 
 code = [
 "def hello(x, y):",
