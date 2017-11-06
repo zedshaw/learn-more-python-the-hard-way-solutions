@@ -33,3 +33,4 @@ def test_Scanner():
     assert s.match("INTEGER")[1] == "20"
     assert s.skip("RPAREN")
 
+
