@@ -14,5 +14,6 @@ def test_Analyzer():
     world = PunyPyWorld(variables)
     # simulate hello(10 + 20)
     script = test_Parser()
+    print(script)
     analyzer = PunyPyAnalyzer(script, world)
     analyzer.analyze()
