@@ -1,10 +1,11 @@
-import fsm
+from socket_fsm import SocketFSM
+
 
 def test_basic_connection():
-    state = fsm.START()
+    fsm = SocketFSM()
     script = ["connect", "accept", "read", "read", "write", "close", "connect"]
 
     for event in script:
-        print(event, ">>>", state)
-        state = state(event)
+        print(event, ">>>", fsm)
+        fsm.handle(event)
 
