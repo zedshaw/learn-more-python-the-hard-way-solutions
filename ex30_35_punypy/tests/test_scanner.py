@@ -1,4 +1,4 @@
-from punypy import TOKENS
+from punypy.run import TOKENS
 from punypy.scanner import Scanner
 
 code = [

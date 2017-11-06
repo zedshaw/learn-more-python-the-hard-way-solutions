@@ -58,4 +58,5 @@ class Scanner(object):
 
         return self.script
 
-
+    def done(self):
+        return len(self.tokens) == 0
