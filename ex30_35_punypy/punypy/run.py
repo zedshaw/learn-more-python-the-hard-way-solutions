@@ -69,16 +69,18 @@ class PunyPyParser(Parser):
 
         if start == 'NAME':
             name = self.match('NAME')
+            nameexpr = prod.NameExpr(name[1])
             if self.peek() == 'PLUS':
-                return self.plus(name)
+                return self.plus(nameexpr)
             else:
-                return name
+                return nameexpr
         elif start == 'INTEGER':
             number = self.match('INTEGER')
+            numexpr = prod.IntExpr(number[1])
             if self.peek() == 'PLUS':
-                return self.plus(number)
+                return self.plus(numexpr)
             else:
-                return number
+                return numexpr
         else:
             assert False, "Syntax error %r" % start
 
