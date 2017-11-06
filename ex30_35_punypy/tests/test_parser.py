@@ -7,5 +7,3 @@ def test_Parser():
     parser = PunyPyParser(scanner)
     results = parser.parse()
 
-    assert results[0]['type'] == 'FUNCDEF'
-
