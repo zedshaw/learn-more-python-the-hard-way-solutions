@@ -12,7 +12,7 @@ def test_Parser():
 def test_Analyzer():
     variables = {}
     world = PunyPyWorld(variables)
-    # simulate hello(10 + 20)
+
     script = test_Parser()
     print(script)
     analyzer = PunyPyAnalyzer(script, world)
@@ -22,3 +22,4 @@ def test_Interpreter():
     prods, world = test_Analyzer()
     for prod in prods:
         prod.interpret(world)
+

@@ -1,0 +1,9 @@
+def hello(x, y):
+    print(x + y)
+
+hello(40, 100)
+hello(10, 50)
+
+print(1,2,3,4,5)
+
+hello(1000000 + 3000, 1)

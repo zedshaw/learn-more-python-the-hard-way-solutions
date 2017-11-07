@@ -1,6 +1,9 @@
 import re
+from punypy.scanner import Scanner
 from punypy.parser import Parser
+from punypy.analyzer import PunyPyAnalyzer
 from punypy import productions as prod
+import sys
 
 TOKENS = [
 (re.compile(r"^def"),                    "DEF"),
@@ -30,7 +33,7 @@ class PunyPyParser(Parser):
             if second == 'LPAREN':
                 return self.function_call(name)
             else:
-                assert False, "Not a FUNCDEF or FUNCCALL"
+                assert False, f"{second} is Not a FUNCDEF or FUNCCALL"
 
     def function_definition(self):
         """
@@ -107,5 +110,26 @@ class PunyPyWorld(object):
     def __init__(self, variables):
         self.variables = variables
         self.functions = {}
+        self.functions['print'] = prod.PrintFuncDef()
+
+    def clone(self):
+        """Sort of a lame way to implement scope."""
+        temp = PunyPyWorld(self.variables.copy())
+        temp.functions = self.functions
+        return temp
 
 
+def run(script):
+    scanner = Scanner(TOKENS, script)
+    parser = PunyPyParser(scanner)
+    parse_tree = parser.parse()
+    world = PunyPyWorld({})
+    analyzer = PunyPyAnalyzer(parse_tree, world)
+    prods = analyzer.analyze()
+    for prod in prods:
+        prod.interpret(world)
+
+if __name__ == "__main__":
+    _, script = sys.argv
+
+    run(open(script).readlines())

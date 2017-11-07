@@ -8,7 +8,7 @@ class Scanner(object):
         self.tokens = self.scan(code)
 
     def ignore_ws(self):
-        while self.tokens[0][0] == 'INDENT':
+        while self.tokens and self.tokens[0][0] == 'INDENT':
             self.tokens.pop(0)
 
     def match(self, token_id):
@@ -52,6 +52,7 @@ class Scanner(object):
 
         for line in code:
             i = 0
+            line = line.rstrip()
             while i < len(line):
                 token, string, end = self.match_regex(i, line)
                 assert token, "Failed to match line %s" % string

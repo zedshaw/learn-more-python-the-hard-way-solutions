@@ -2,9 +2,9 @@ from punypy.run import TOKENS
 from punypy.scanner import Scanner
 
 code = [
-"def hello(x, y):",
-"    print(x + y)",
-"hello(10, 20)",
+"def hello(x, y):\n",
+"    print(x + y)\n",
+"hello(10, 20)\n",
 ]
 
 
