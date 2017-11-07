@@ -19,28 +19,6 @@ TOKENS = [
 ]
 
 
-def ignore_ws(tokens):
-    while tokens[0][0] == 'INDENT':
-        tokens.pop(0)
-
-def match(tokens, token_id):
-    if token_id != 'INDENT':
-        ignore_ws(tokens)
-
-    if tokens[0][0] == token_id:
-        return tokens.pop(0)
-    else:
-        assert False, "Expected %r got %r" % (token_id, tokens[0])
-
-def peek(tokens):
-    ignore_ws(tokens)
-    return tokens[0][0]
-
-def skip(tokens):
-    ignore_ws(tokens)
-    tokens.pop(0)
-
-
 def match_regex(i, line):
     start = line[i:]
     for regex, token in TOKENS:
