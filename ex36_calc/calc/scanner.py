@@ -8,11 +8,11 @@ class Scanner(object):
         self.tokens = self.scan(code)
 
     def ignore_ws(self):
-        while self.tokens and self.tokens[0][0] == 'INDENT':
+        while self.tokens and self.tokens[0][0] == 'SPACE':
             self.tokens.pop(0)
 
     def match(self, token_id):
-        if token_id != 'INDENT':
+        if token_id != 'SPACE':
             self.ignore_ws()
 
         if self.tokens[0][0] == token_id:
@@ -22,11 +22,14 @@ class Scanner(object):
 
     def peek(self):
         self.ignore_ws()
-        return self.tokens[0][0]
+        if self.tokens:
+            return self.tokens[0][0]
+        else:
+            return ['END', 'end']
 
     def skip(self, *what):
         for x in what:
-            if x != 'INDENT': self.ignore_ws()
+            if x != 'SPACE': self.ignore_ws()
 
             tok = self.tokens[0]
             if tok[0] != x:

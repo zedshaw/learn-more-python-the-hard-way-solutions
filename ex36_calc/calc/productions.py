@@ -5,37 +5,6 @@ class Production(object):
     def interpret(self, world):
         """Implement your interpreter here."""
 
-class FuncCall(Production):
-
-    def __init__(self, token, params):
-        self.name = token[1]
-        self.params = params
-        self.token = token
-
-    def analyze(self, world):
-        self.params.analyze(world)
-
-    def interpret(self, world):
-        funcdef = world.functions[self.name]
-        funcdef.call(world, self.params)
-
-    def __repr__(self):
-        return f"FuncCall({self.name}: {self.params})"
-
-class Parameters(Production):
-
-    def __init__(self, expressions):
-        self.expressions = expressions
-
-    def analyze(self, world):
-        for expr in self.expressions:
-            expr.analyze(world)
-
-    def interpret(self, world):
-        return [x.interpret(world) for x in self.expressions]
-
-    def __repr__(self):
-        return f"Parameters({self.expressions})"
 
 class Expr(Production): pass
 
@@ -64,9 +33,10 @@ class IntExpr(Expr):
         return self.integer
 
 
-class AddExpr(Expr):
-    def __init__(self, left, right):
+class InfixExpr(Expr):
+    def __init__(self, left, op, right):
         self.left = left
+        self.op = op
         self.right = right
 
     def analyze(self, world):
@@ -74,39 +44,19 @@ class AddExpr(Expr):
         self.right.analyze(world)
 
     def interpret(self, world):
-        return self.left.interpret(world) + self.right.interpret(world)
-
+        left_n = self.left.interpret(world) 
+        right_n = self.right.interpret(world)
+        if self.op == 'PLUS':
+            return left_n + right_n
+        elif self.op == 'MINUS':
+            return left_n + right_n
+        elif self.op == 'DIV':
+            return left_n / right_n
+        elif self.op == 'MULT':
+            return left_n * right_n
+        else:
+            assert False, "Nope."
 
     def __repr__(self):
         return f"AddExpr({self.left}, {self.right})"
-
-class FuncDef(Production):
-
-    def __init__(self, token, params, body):
-        self.name = token[1]
-        self.params = params
-        self.body = body
-        self.token = token
-
-    def analyze(self, world):
-        world.functions[self.name] = self
-
-    def __repr__(self):
-        return f"FuncDef({self.name}({self.params}): {self.body}"
-
-    def call(self, world, params):
-        params = params or Parameters()
-
-        scope = world.clone()
-        for i, p in enumerate(self.params.expressions):
-            scope.variables[p.name] = params.expressions[i]
-
-        for line in self.body:
-            line.interpret(scope)
-
-class PrintFuncDef(Production):
-
-    def call(self, world, params):
-        print(*params.interpret(world))
-
 

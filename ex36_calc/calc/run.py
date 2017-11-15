@@ -19,47 +19,46 @@ TOKENS = [
 class CalcParser(Parser):
 
     def root(self):
-        """root = *(funccal / funcdef)"""
-        assert False, "Nope"
+        """root = *(expression)"""
+        return self.expression()
 
     def expression(self):
-        """expression = name / funccall / plus / integer"""
+        """expression = name / assign / infix / integer"""
         start = self.peek()
 
         if start == 'NAME':
             name = self.match('NAME')
             nameexpr = prod.NameExpr(name)
 
-            expr = self.peek()
+            op = self.peek()
 
-            if expr == 'PLUS':
-                return self.plus(nameexpr)
-            elif expr == 'LPAREN':
-                return self.function_call(name)
+            if op in ['PLUS', 'MINUS', 'DIV', 'MULT']:
+                return self.infix(nameexpr, op)
             else:
                 return nameexpr
         elif start == 'INTEGER':
             number = self.match('INTEGER')
             numexpr = prod.IntExpr(number)
-            if self.peek() == 'PLUS':
-                return self.plus(numexpr)
+            op = self.peek()
+
+            if op in ['PLUS', 'MINUS', 'DIV', 'MULT']:
+                return self.infix(numexpr, op)
             else:
                 return numexpr
         else:
             assert False, "Syntax error %r" % start
 
-    def plus(self, left):
+    def infix(self, left, op):
         """plus = expression PLUS expression"""
-        self.match('PLUS')
+        self.match(op)
         right = self.expression()
-        return prod.AddExpr(left, right)
+        return prod.InfixExpr(left, op, right)
 
 class CalcWorld(object):
 
     def __init__(self, variables):
         self.variables = variables
         self.functions = {}
-        self.functions['print'] = prod.PrintFuncDef()
 
     def clone(self):
         """Sort of a lame way to implement scope."""
@@ -76,7 +75,7 @@ def run(script):
     analyzer = CalcAnalyzer(parse_tree, world)
     prods = analyzer.analyze()
     for prod in prods:
-        prod.interpret(world)
+        print(prod.interpret(world))
 
 if __name__ == "__main__":
     _, script = sys.argv
