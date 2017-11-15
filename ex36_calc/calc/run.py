@@ -34,6 +34,8 @@ class CalcParser(Parser):
 
             if op in ['PLUS', 'MINUS', 'DIV', 'MULT']:
                 return self.infix(nameexpr, op)
+            elif op == 'EQUAL':
+                return self.assign(nameexpr)
             else:
                 return nameexpr
         elif start == 'INTEGER':
@@ -47,6 +49,11 @@ class CalcParser(Parser):
                 return numexpr
         else:
             assert False, "Syntax error %r" % start
+
+    def assign(self, name):
+        self.skip('EQUAL')
+        right = self.expression()
+        return prod.AssignExpr(name, right)
 
     def infix(self, left, op):
         """plus = expression PLUS expression"""

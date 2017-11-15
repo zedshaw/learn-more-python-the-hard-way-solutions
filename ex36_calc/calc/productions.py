@@ -21,6 +21,20 @@ class NameExpr(Expr):
     def __repr__(self):
         return f"NameExpr({self.name})"
 
+class AssignExpr(Expr):
+
+    def __init__(self, name, expr):
+        self.name = name
+        self.expr = expr
+
+    def interpret(self, world):
+        world.variables[self.name.name] = self.expr
+        return self.expr.interpret(world)
+
+    def __repr__(self):
+        return f"{self.name} = {self.expr}"
+
+
 class IntExpr(Expr):
     def __init__(self, token):
         self.integer = int(token[1])
