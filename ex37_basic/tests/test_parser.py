@@ -20,6 +20,6 @@ def test_Analyzer():
 
 def test_Interpreter():
     prods, world = test_Analyzer()
-    for prod in prods:
+    for line_no, prod in prods:
         prod.interpret(world)
 

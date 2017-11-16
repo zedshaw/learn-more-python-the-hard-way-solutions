@@ -5,7 +5,7 @@ class BasicAnalyzer(object):
         self.world = world
 
     def analyze(self):
-        for node in self.parse_tree:
+        for line_no, node in self.parse_tree:
             node.analyze(self.world)
 
         return self.parse_tree

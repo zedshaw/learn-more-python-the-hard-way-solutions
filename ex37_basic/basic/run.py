@@ -22,7 +22,8 @@ class BasicParser(Parser):
 
     def root(self):
         """root = *(expression)"""
-        return self.expression()
+        line_no = prod.IntExpr(self.match('INTEGER')).integer
+        return line_no, self.expression()
 
     def expression(self):
         """expression = name / assign / infix / integer / print"""
@@ -83,9 +84,18 @@ class BasicWorld(object):
         self.variables = variables
         self.functions = {}
 
+    def code(self, code):
+        self.code = code
+        self.ip = 0
+
+    def exec(self):
+        line = self.code[self.ip]
+
+
     def clone(self):
         """Sort of a lame way to implement scope."""
         temp = BasicWorld(self.variables.copy())
+        temp.code = self.code
         temp.functions = self.functions
         return temp
 
@@ -96,8 +106,9 @@ def run(script):
     parse_tree = parser.parse()
     world = BasicWorld({})
     analyzer = BasicAnalyzer(parse_tree, world)
-    prods = analyzer.analyze()
-    for prod in prods:
+    world.prods = analyzer.analyze()
+
+    for line_no, prod in world.prods:
         prod.interpret(world)
 
 if __name__ == "__main__":
