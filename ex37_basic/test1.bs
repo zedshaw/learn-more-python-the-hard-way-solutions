@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 LET X = 10
 LET Y = 100
 LET Z = 23
@@ -7,13 +6,3 @@ LET J = X * Y + 100 / X - Z
 PRINT J
 PRINT 13 / 4 + 7 * 14
 PRINT 42 * 300 / 1000000
-=======
-10 X = 10
-20 Y = 100
-30 Z = 23
-35 PRINT X
-40 J = X * Y + 100 / X - Z
-50 PRINT J
-60 PRINT 13 / 4 + 7 * 14
-70 PRINT 42 * 300 / 1000000
->>>>>>> 83a111722c2bfa0a77c1687112f108e7cb6e50b6

@@ -74,7 +74,6 @@ class InfixExpr(Expr):
     def __repr__(self):
         return f"AddExpr({self.left}, {self.right})"
 
-<<<<<<< HEAD
 class PrintExpr(Expr):
 
     def __init__(self, expr):
@@ -83,5 +82,3 @@ class PrintExpr(Expr):
     def interpret(self, world):
         print(self.expr.interpret(world))
 
-=======
->>>>>>> 83a111722c2bfa0a77c1687112f108e7cb6e50b6
