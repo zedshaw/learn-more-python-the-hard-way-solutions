@@ -8,6 +8,7 @@ import sys
 TOKENS = [
 (re.compile(r"^LET"),    "LET"),
 (re.compile(r"^PRINT"),  "PRINT"),
+(re.compile(r"^GOTO"),  "GOTO"),
 (re.compile(r"^[A-Z_][A-Z0-9_]*"), "NAME"),
 (re.compile(r"^[0-9]+"), "INTEGER"),
 (re.compile(r"^\="),     "EQUAL"),
@@ -39,6 +40,8 @@ class BasicParser(Parser):
                 return nameexpr
         elif start == 'LET':
             return self.assign()
+        elif start == 'GOTO':
+            return self.goto()
         elif start == 'PRINT':
             return self.print()
         elif start == 'INTEGER':
@@ -78,6 +81,11 @@ class BasicParser(Parser):
         expr = self.expression()
         return prod.PrintExpr(expr)
 
+    def goto(self):
+        self.match('GOTO')
+        expr = self.expression()
+        return prod.GotoExpr(expr)
+
 class BasicWorld(object):
 
     def __init__(self, variables):
@@ -87,18 +95,26 @@ class BasicWorld(object):
     def code(self, code):
         self.code = code
         self.ip = 0
+        self.line_to_ip = {}
+
+        i = 0 # meh, I guess this works
+        for line_no, _ in self.code:
+            self.line_to_ip[line_no] = i
+            i += 1
+        self.end = i
 
     def exec(self):
-        line = self.code[self.ip]
+        line_no, code = self.code[self.ip]
+        code.interpret(self)
+        self.ip += 1
 
+    def done(self):
+        # off by one?
+        return self.ip == self.end
 
-    def clone(self):
-        """Sort of a lame way to implement scope."""
-        temp = BasicWorld(self.variables.copy())
-        temp.code = self.code
-        temp.functions = self.functions
-        return temp
-
+    def goto(self, line_no):
+        target = line_no 
+        self.ip = self.line_to_ip[target] - 1  # exec increments self.ip by 1
 
 def run(script):
     scanner = Scanner(TOKENS, script)
@@ -106,10 +122,10 @@ def run(script):
     parse_tree = parser.parse()
     world = BasicWorld({})
     analyzer = BasicAnalyzer(parse_tree, world)
-    world.prods = analyzer.analyze()
+    world.code(analyzer.analyze())
 
-    for line_no, prod in world.prods:
-        prod.interpret(world)
+    while not world.done():
+        world.exec()
 
 if __name__ == "__main__":
     _, script = sys.argv

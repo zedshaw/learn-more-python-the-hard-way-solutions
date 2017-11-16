@@ -82,3 +82,10 @@ class PrintExpr(Expr):
     def interpret(self, world):
         print(self.expr.interpret(world))
 
+class GotoExpr(Expr):
+    def __init__(self, expr):
+        self.expr = expr
+
+    def interpret(self, world):
+        world.goto(self.expr.interpret(world))
+
