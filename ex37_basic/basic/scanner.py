@@ -27,6 +27,14 @@ class Scanner(object):
         else:
             return ['END', 'end']
 
+<<<<<<< HEAD
+    def error(self):
+        token, string, line_no, i, end = self.tokens[0]
+        
+        return f"ERROR: {token}{string} at line {line_no}@{i}"
+
+=======
+>>>>>>> 83a111722c2bfa0a77c1687112f108e7cb6e50b6
     def skip(self, *what):
         for x in what:
             if x != 'SPACE': self.ignore_ws()
@@ -52,16 +60,28 @@ class Scanner(object):
 
     def scan(self, code):
         self.script = []
+<<<<<<< HEAD
+        line_no = 0
+=======
+>>>>>>> 83a111722c2bfa0a77c1687112f108e7cb6e50b6
 
         for line in code:
             i = 0
             line = line.rstrip()
+<<<<<<< HEAD
+            line_no += 1
+=======
+>>>>>>> 83a111722c2bfa0a77c1687112f108e7cb6e50b6
             while i < len(line):
                 token, string, end = self.match_regex(i, line)
                 assert token, "Failed to match line %s" % string
                 if token:
                     i += end
+<<<<<<< HEAD
+                    self.script.append((token, string, line_no, i, end))
+=======
                     self.script.append((token, string, i, end)) 
+>>>>>>> 83a111722c2bfa0a77c1687112f108e7cb6e50b6
 
         return self.script
 
