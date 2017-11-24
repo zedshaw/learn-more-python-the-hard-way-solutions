@@ -5,3 +5,6 @@ __pycache__
 .morepystats
 .sw*
 .coverage
+*.egg-info
+build
+dist
