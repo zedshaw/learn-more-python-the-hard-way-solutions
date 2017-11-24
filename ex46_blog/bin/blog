@@ -2,6 +2,11 @@
 
 from blog.run import main
 import sys
+import os
 
-main(sys.argv)
+_, input_dir, output_dir = sys.argv
+assert os.path.exists(input_dir)
+assert os.path.exists(output_dir)
+
+main(input_dir, output_dir)
 
