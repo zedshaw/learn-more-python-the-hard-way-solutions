@@ -1,6 +1,6 @@
 import sys
-from scanner import Scanner
-from parser import EdParser
+from ed.scanner import Scanner
+from ed.parser import EdParser
 
 def process(line, buffer):
     scan = Scanner(line)
