@@ -4,6 +4,7 @@ from calc.parser import Parser
 from calc.analyzer import CalcAnalyzer
 from calc import productions as prod
 import sys
+import readline
 
 TOKENS = [
 (re.compile(r"^define"),                "DEFINE"),
@@ -162,7 +163,31 @@ def run(script):
     for p in prods:
         p.interpret(world)
 
-if __name__ == "__main__":
-    _, script = sys.argv
+def shell():
+    world = CalcWorld({})
+    print_def = prod.PrintFuncDef()
 
-    run(open(script).readlines())
+    while True:
+        try:
+            line = input("> ")
+        except EOFError:
+            print()
+            sys.exit(0)
+
+        scanner = Scanner(TOKENS, [line])
+        parser = CalcParser(scanner)
+        parse_tree = parser.parse()
+        analyzer = CalcAnalyzer(parse_tree, world)
+        prods = analyzer.analyze()
+        for p in prods:
+            val = p.interpret(world)
+            if val: print(val)
+
+
+if __name__ == "__main__":
+    if len(sys.argv) == 2:
+        _, script = sys.argv
+        run(open(script).readlines())
+    else:
+        shell()
+
