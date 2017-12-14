@@ -1,0 +1,16 @@
+x = 10
+y = 100
+z = 23
+
+j = x * y + 100 / x - z
+
+13 / 4 + 7 * 14
+42 * 300 / 1000000
+
+define calc(x) {
+    print(x + 20)
+}
+
+print(calc(100))
+print(calc(8))
+
