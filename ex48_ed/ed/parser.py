@@ -33,38 +33,50 @@ class EdParser(Parser):
     def __init__(self, scanner, buffer):
         super().__init__(scanner)
         self.buffer = buffer
+        self.range = None
         self.cur_line = 0
 
     def root(self):
         start = self.peek()
 
         if start == 'PRINT':
-            self.print(self.cur_line)
+            self.print()
+        elif start == 'APPEND':
+            self.append()
         elif start == 'INTEGER':
             # this is an address
             self.address()
         elif start == 'COMMA':
-            self.range()
+            self.address_range()
         else:
             assert False, "Not supported."
 
     def address(self):
         # need to handle the range here
         addr = self.match('INTEGER')
-        addr_n = addr[1]
-        assert addr_n > 0 and addr_n < len(self.buffer)
+        addr_n = int(addr[1])
         self.cur_line = addr_n
             
-
-    def range(self):
+    def address_range(self):
         # right now only whole buffer
         self.match('COMMA')
-        self.print(0, end=len(self.buffer))
+        self.range = (0, self.buffer.line_count())
 
-    def print(self, start, end=None):
+    def print(self):
         self.match('PRINT')
-        if end:
-            print("\n".join(self.buffer[start:end]))
+        if self.range:
+            start, end = self.range
         else:
-            print(self.buffer[start])
+            start = self.cur_line
+            end = self.cur_line + 1
+
+        self.buffer.print(start, end)
+
+    def append(self):
+        self.match('APPEND')
+        line = input()
+        while line != '.':
+            self.cur_line += 1
+            self.buffer.append(line)
+            line = input()
 

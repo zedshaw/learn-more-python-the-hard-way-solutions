@@ -6,6 +6,7 @@ def L(regex, token):
 class Scanner(object):
     regex_list = [
     L("p", "PRINT"),
+    L('a', 'APPEND'),
     L(r"^[0-9]+", "INTEGER"),
     L(r"^\+", "PLUS"),
     L(r"^\-", "MINUS"),
