@@ -1,4 +1,4 @@
-import ed
+from ed import ed
 
 def test_process():
     buffer = ["Twinkle","Twinkle"]
