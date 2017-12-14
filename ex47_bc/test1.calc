@@ -1,8 +1,8 @@
 
 define calc(x) {
-    print(x + 20)
+    return x + 20
 }
 
-calc(20)
+print(calc(20))
 
 

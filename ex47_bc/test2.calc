@@ -9,8 +9,11 @@ j = x * y + 100 / x - z
 
 define calc(x) {
     print(x + 20)
+    return 10
 }
 
-print(calc(100))
+test1 = calc(100)
+
+print(test1)
 print(calc(8))
 

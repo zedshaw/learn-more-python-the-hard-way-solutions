@@ -88,7 +88,7 @@ class FuncCall(Production):
 
     def interpret(self, world):
         funcdef = world.functions[self.name]
-        funcdef.call(world, self.params)
+        return funcdef.call(world, self.params)
 
     def __repr__(self):
         return f"FuncCall({self.name}: {self.params})"
@@ -131,7 +131,9 @@ class FuncDef(Production):
             scope.variables[p.name] = params.expressions[i]
 
         for line in self.body:
-            line.interpret(scope)
+            retval = line.interpret(scope)
+
+        return retval
 
 class PrintFuncDef(Production):
 

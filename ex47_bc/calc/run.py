@@ -111,6 +111,10 @@ class CalcParser(Parser):
                 return self.function_call(name)
             else:
                 return nameexpr
+        elif start == 'RETURN':
+            # for now we can be expression based and just ignore the return
+            self.skip('RETURN')
+            return self.expression()
         elif start == 'INTEGER':
             number = self.match('INTEGER')
             numexpr = prod.IntExpr(number)
