@@ -49,6 +49,8 @@ class EdParser(Parser):
             self.file()
         elif start == 'WRITE':
             self.write()
+        elif start == 'QUIT':
+            self.buffer.quit()
         elif start == 'INTEGER':
             # this is an address
             self.address()

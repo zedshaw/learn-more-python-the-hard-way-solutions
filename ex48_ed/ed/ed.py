@@ -67,7 +67,7 @@ class Buffer(object):
             print(line)
 
     def quit(self):
-        pass
+        sys.exit(0)
 
     def read(self, file_name, address=None):
         self.lines += open(file_name).readlines()
