@@ -20,7 +20,8 @@ def test_edit():
     b = Buffer()
     base_file = "tests/test_buffer.py"
     b.edit(base_file)
-    assert b.lines == open(base_file).readlines()
+    expected = [x.rstrip() for x in open(base_file).readlines()]
+    assert b.lines == expected
     assert b.file_name == base_file
 
 def test_file():
