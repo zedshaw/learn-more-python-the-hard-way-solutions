@@ -41,15 +41,21 @@ class EdParser(Parser):
 
         if start == 'PRINT':
             self.print()
+        elif start == 'NPRINT':
+            self.nprint()
         elif start == 'APPEND':
             self.append()
+        elif start == 'FILE':
+            self.file()
+        elif start == 'WRITE':
+            self.write()
         elif start == 'INTEGER':
             # this is an address
             self.address()
         elif start == 'COMMA':
             self.address_range()
         else:
-            assert False, "Not supported."
+            assert False, f"Not supported  {self.match(start)}"
 
     def address(self):
         # need to handle the range here
@@ -62,21 +68,35 @@ class EdParser(Parser):
         self.match('COMMA')
         self.range = (0, self.buffer.line_count())
 
+    def calc_range(self):
+        if self.range:
+            return self.range
+        else:
+            return self.cur_line, self.cur_line + 1
+
     def print(self):
         self.match('PRINT')
-        if self.range:
-            start, end = self.range
-        else:
-            start = self.cur_line
-            end = self.cur_line + 1
+        self.buffer.print(*self.calc_range())
 
-        self.buffer.print(start, end)
+    def nprint(self):
+        self.match('NPRINT')
+        self.buffer.nprint(*self.calc_range())
 
     def append(self):
         self.match('APPEND')
         line = input()
         while line != '.':
+            self.buffer.append(line, address=self.cur_line)
             self.cur_line += 1
-            self.buffer.append(line)
             line = input()
+
+    def write(self):
+        self.match('WRITE')
+        self.buffer.write()
+
+    def file(self):
+        self.match('FILE')
+        file_name = self.match('FILE_NAME')
+        print(">>>> file_name", file_name)
+        self.buffer.file(file_name[1])
 

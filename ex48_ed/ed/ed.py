@@ -4,7 +4,7 @@ from ed.scanner import Scanner
 from ed.parser import EdParser
 
 def process(line, buffer):
-    scan = Scanner(line)
+    scan = Scanner([line])
     ed_parser = EdParser(scan, buffer)
     parse_tree = ed_parser.parse()
  
@@ -58,7 +58,7 @@ class Buffer(object):
 
     def nprint(self, start, end):
         for i, line in enumerate(self.lines):
-            print("{i}\t{line}")
+            print(f"{i}\t{line}")
 
     def print(self, start, end):
         start = start or 0
@@ -76,7 +76,9 @@ class Buffer(object):
         pass
 
     def write(self, file_name=None):
-        pass
+        file_name = file_name or self.file_name
+        assert file_name, "Need a file name!"
+        open(file_name, 'w').write("\n".join(self.lines))
 
     def undo(self):
         pass

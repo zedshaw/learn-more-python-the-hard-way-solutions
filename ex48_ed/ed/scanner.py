@@ -5,13 +5,17 @@ def L(regex, token):
 
 class Scanner(object):
     regex_list = [
-    L("p", "PRINT"),
-    L('a', 'APPEND'),
+    L(r"^p", "PRINT"),
+    L(r'^a', 'APPEND'),
+    L(r'^n', 'NPRINT'),
+    L(r'^f', 'FILE'),
+    L(r'^w', 'WRITE'),
     L(r"^[0-9]+", "INTEGER"),
     L(r"^\+", "PLUS"),
     L(r"^\-", "MINUS"),
     L(r"^\s+", "SPACE"),
     L(r"^,", "COMMA"),
+    L(r'^.*', "FILE_NAME"), # terrible regex
     ]
 
     def __init__(self, code):
