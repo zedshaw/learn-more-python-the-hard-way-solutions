@@ -64,11 +64,19 @@ class EdParser(Parser):
         addr = self.match('INTEGER')
         addr_n = int(addr[1])
         self.cur_line = addr_n
+        if self.peek() == 'COMMA':
+            self.address_range()
             
     def address_range(self):
         # right now only whole buffer
         self.match('COMMA')
-        self.range = (0, self.buffer.line_count())
+        if self.peek() == 'INTEGER':
+            addr = self.match('INTEGER')
+            addr_n = int(addr[1])
+            self.range = (self.cur_line, addr_n)
+        else:
+            self.range = (0, self.buffer.line_count())
+
 
     def calc_range(self):
         if self.range:

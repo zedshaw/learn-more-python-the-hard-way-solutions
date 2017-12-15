@@ -8,7 +8,7 @@ def test_process():
     ed.process(",p", buffer)
     ed.process(",n", buffer)
     ed.process("1p", buffer)
-    ed.process("1p", buffer)
+    ed.process("1,2p", buffer)
     ed.process('f tests/out.txt', buffer)
     ed.process("w", buffer)
 
