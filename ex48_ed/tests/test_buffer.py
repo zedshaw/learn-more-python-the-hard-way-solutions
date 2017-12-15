@@ -52,9 +52,6 @@ def test_print():
     b = Buffer()
     b.print(0,0)
 
-def test_quit():
-    b = Buffer()
-
 def test_read():
     b = Buffer()
 
@@ -66,7 +63,4 @@ def test_write():
     b.file("tests/out.txt")
     b.write()
     assert os.path.exists("tests/out.txt")
-
-def test_undo():
-    b = Buffer()
 

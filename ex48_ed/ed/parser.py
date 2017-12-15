@@ -54,6 +54,8 @@ class EdParser(Parser):
         elif start == 'INTEGER':
             # this is an address
             self.address()
+        elif start == 'JOIN':
+            self.join()
         elif start == 'COMMA':
             self.address_range()
         else:
@@ -107,6 +109,9 @@ class EdParser(Parser):
     def file(self):
         self.match('FILE')
         file_name = self.match('FILE_NAME')
-        print(">>>> file_name", file_name)
         self.buffer.file(file_name[1])
+
+    def join(self):
+        self.match('JOIN')
+        self.buffer.join(*self.calc_range())
 

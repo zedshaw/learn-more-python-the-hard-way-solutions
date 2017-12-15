@@ -10,6 +10,7 @@ class Scanner(object):
     L(r'^n', 'NPRINT'),
     L(r'^f', 'FILE'),
     L(r'^w', 'WRITE'),
+    L(r'^j', 'JOIN'),
     L(r'^q', 'QUIT'),
     L(r"^[0-9]+", "INTEGER"),
     L(r"^\+", "PLUS"),

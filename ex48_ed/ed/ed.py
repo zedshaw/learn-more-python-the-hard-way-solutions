@@ -80,8 +80,13 @@ class Buffer(object):
         assert file_name, "Need a file name!"
         open(file_name, 'w').write("\n".join(self.lines))
 
-    def undo(self):
-        pass
-
     def line_count(self):
         return len(self.lines)
+
+    def join(self, start, end):
+        front = self.lines[:start]
+        middle = self.lines[start:end]
+        joined = " ".join(middle)
+        after = self.lines[end:]
+        self.lines = front + [joined] + after
+
