@@ -25,8 +25,6 @@ class Buffer(object):
             # position it after the given line
             self.lines.insert(address, text)
 
-
-
     def change(self, start=None, end=None):
         pass
 
@@ -41,13 +39,7 @@ class Buffer(object):
     def file(self, file_name):
         self.file_name = file_name
 
-    def glob(self, pattern, commands, start=1, end=None):
-        pass
-
     def insert(self, address=None):
-        pass
-
-    def join(self, start=None, end=None):
         pass
 
     def mark(self, address=None):
