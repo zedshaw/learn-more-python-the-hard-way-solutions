@@ -12,11 +12,13 @@ class Scanner(object):
     L(r'^w', 'WRITE'),
     L(r'^j', 'JOIN'),
     L(r'^q', 'QUIT'),
+    L(r'^s', 'SUBST'),
     L(r"^[0-9]+", "INTEGER"),
     L(r"^\+", "PLUS"),
     L(r"^\-", "MINUS"),
     L(r"^\s+", "SPACE"),
     L(r"^,", "COMMA"),
+    L(r'/.*/.*/', 'PATTERN'), # won't work totally
     L(r'^.*', "FILE_NAME"), # terrible regex
     ]
 

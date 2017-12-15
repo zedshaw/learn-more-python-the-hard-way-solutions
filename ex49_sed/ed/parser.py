@@ -51,6 +51,8 @@ class EdParser(Parser):
             self.write()
         elif start == 'QUIT':
             self.buffer.quit()
+        elif start == 'SUBST':
+            self.subst()
         elif start == 'INTEGER':
             # this is an address
             self.address()
@@ -114,4 +116,10 @@ class EdParser(Parser):
     def join(self):
         self.match('JOIN')
         self.buffer.join(*self.calc_range())
+
+    def subst(self):
+        self.match('SUBST')
+        pat_tok = self.match('PATTERN')[1]
+        _, pattern, replace, _ = pat_tok.split('/')
+        self.buffer.subst(pattern, replace)
 

@@ -1,4 +1,5 @@
 import sys
+import re
 import ed
 from ed.scanner import Scanner
 from ed.parser import EdParser
@@ -62,10 +63,16 @@ class Buffer(object):
         sys.exit(0)
 
     def read(self, file_name, address=None):
-        self.lines += open(file_name).readlines()
+        self.lines += [x.rstrip() for x in open(file_name).readlines()]
 
     def subst(self, pattern, replace, start=None, end=None):
-        pass
+        repat = re.compile(pattern)
+        new_lines = []
+
+        for line in self.lines:
+            new_lines.append(repat.sub(replace, line))
+
+        self.lines = new_lines
 
     def write(self, file_name=None):
         file_name = file_name or self.file_name
