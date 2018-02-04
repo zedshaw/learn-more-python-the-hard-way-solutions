@@ -25,14 +25,12 @@ class Dictionary(object):
 
         if bucket:
             node = bucket.begin
-            i = 0
 
             while node:
                 if key == node.value[0]:
                     return bucket, node
                 else:
                     node = node.next
-                    i += 1
 
         # fall through for both if and while above
         return bucket, None
