@@ -33,12 +33,15 @@ class Dictionary(object):
                     node = node.next
 
         # fall through for both if and while above
-        return bucket, None
+        return bucket, default
 
     def get(self, key, default=None):
         """Gets the value in a bucket for the given key, or the default."""
         bucket, node = self.get_slot(key, default=default)
-        return node and node.value[1] or node
+        try:
+            return node and node.value[1] or node
+        except AttributeError:
+            return node
 
     def set(self, key, value):
         """Sets the key to the value, replacing any existing value."""
