@@ -1,0 +1,6 @@
+* Use python re library for the regex portions.
+* Need a buffer class that understands the commands.
+* Parser then works this buffer class to process the file.
+* No need for analysis, but could have the parser produce small command objects.
+* Parser could also just make a list of buffer class functions that get called as closures.
+* DUUUUHHHHHHH Buffer is an FSM.
