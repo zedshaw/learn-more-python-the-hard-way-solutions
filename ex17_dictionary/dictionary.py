@@ -25,22 +25,23 @@ class Dictionary(object):
 
         if bucket:
             node = bucket.begin
-            i = 0
 
             while node:
                 if key == node.value[0]:
                     return bucket, node
                 else:
                     node = node.next
-                    i += 1
 
         # fall through for both if and while above
-        return bucket, None
+        return bucket, default
 
     def get(self, key, default=None):
         """Gets the value in a bucket for the given key, or the default."""
         bucket, node = self.get_slot(key, default=default)
-        return node and node.value[1] or node
+        try:
+            return node and node.value[1] or node
+        except AttributeError:
+            return node
 
     def set(self, key, value):
         """Sets the key to the value, replacing any existing value."""
